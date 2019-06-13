@@ -1,7 +1,9 @@
 import * as CryptoJS from 'crypto-js';
 
 export class BaightStorage {
-    constructor() { }
+    constructor() { 
+        this.configEncryptKey = "baight"
+    }
 
     setConfig(key:string, value:string) : void{
         if (value) {
@@ -35,11 +37,29 @@ export class BaightStorage {
     }
 
     // 储存
-    public configEncryptKey: string = "baight"; 
+    private _configEncryptKey: string;
+    private _aesKey: string;
+    private _aesIV: string;
+    public get configEncryptKey(): string{
+        return this._configEncryptKey;
+    }
+    public set configEncryptKey(key: string) {
+        this._configEncryptKey = key;
+        this._aesKey = CryptoJS.enc.Utf8.parse(CryptoJS.MD5(this.configEncryptKey).toString());
+        this._aesIV = CryptoJS.enc.Utf8.parse(CryptoJS.MD5(this.configEncryptKey).toString().substr(0,16));
+    }
     encryptString(str:string) : string {
-        return CryptoJS.AES.encrypt(str, this.configEncryptKey).toString();
+        return CryptoJS.AES.encrypt(str, this._aesKey, {
+            iv : this._aesIV,
+            mode : CryptoJS.mode.CBC,
+            padding : CryptoJS.pad.ZeroPadding
+        }).toString();
     }
     decryptString(str:string) : string {
-        return CryptoJS.AES.decrypt(str, this.configEncryptKey).toString(CryptoJS.enc.Utf8);
+        return CryptoJS.AES.decrypt(str, this._aesKey, {
+            iv : this._aesIV,
+            mode : CryptoJS.mode.CBC,
+            padding : CryptoJS.pad.ZeroPadding
+        }).toString(CryptoJS.enc.Utf8);
     }
 }
