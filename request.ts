@@ -22,7 +22,10 @@ export class Request {
     if (error) {
       let response : Response = new Response();
       response.error = error;
-      if (error.error && error.error.message) {
+      if (error.status == 0) {
+        response.desc = "网络异常"
+      }
+      else if (error.error && error.error.message) {
         response.desc = error.error.message
       }
       else{
@@ -32,11 +35,19 @@ export class Request {
       return response
     }
     else {
-      let response : any = new Response();
-      response.code = value.code;
-      response.desc = value.message ? value.message : value.desc;
-      response.data = value.data;
-      return response
+      if (value) {
+        let response : any = new Response();
+        response.code = value.code;
+        response.desc = value.message ? value.message : value.desc;
+        response.data = value.data;
+        return response
+      }
+      else{
+        let response : Response = new Response();
+        response.code = -1
+        response.desc = '接口返回数据错误'
+        return response
+      }
     }
   }
 

@@ -1,4 +1,4 @@
-import { Subject, PartialObserver, Subscription, NextObserver } from "rxjs";
+import { Subject, Subscription } from "rxjs";
 import { BaightStorage } from "./storage";
 import { Model } from "./model";
 import { Request } from "./request";
@@ -36,7 +36,7 @@ export class BaightQueen {
     broadcast(mission: string) {
         this.missionAnnouncedSource.next(mission);
     }
-    subscribe(next?: (value: string) => void, error?: (error: any) => void, complete?: () => void): Subscription{
+    subscribe(next?: (value: string) => void, error?: (error: any) => void, complete?: () => void): Subscription {
         return this.broadcast$.subscribe(next, error, complete)
     }
 
