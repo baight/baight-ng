@@ -60,4 +60,12 @@ export class BaightCommon {
             return path0 + path1
         }
     }
+    static toString(obj:any){
+        if (obj){
+            return obj.toString()
+        }
+        else {
+            return ""
+        }
+    }
  }
