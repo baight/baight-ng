@@ -65,7 +65,7 @@ export class BaightCommon {
             return obj.toString()
         }
         else {
-            return ""
+            return null
         }
     }
  }
