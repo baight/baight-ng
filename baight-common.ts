@@ -61,7 +61,7 @@ export class BaightCommon {
         }
     }
     static toString(obj:any){
-        if (obj){
+        if (obj != null && obj != undefined){
             return obj.toString()
         }
         else {
