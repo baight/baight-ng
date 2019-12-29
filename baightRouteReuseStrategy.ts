@@ -38,12 +38,19 @@ export class BaightRouteReuseStrategy implements RouteReuseStrategy {
         return this.cacheKeyForPath(path)
     }
     subCacheKeyForRoute(route: ActivatedRouteSnapshot): string {
-        if (route.routeConfig && route.routeConfig.path.length > 0) {
-            return route.routeConfig.path
+        let result = kEmptyPathKey
+        if (route.routeConfig) {
+            if (route.routeConfig.path.length > 0) {
+                result = route.routeConfig.path
+            }
+            else if (route.routeConfig.loadChildren) {
+                result = route.routeConfig.loadChildren.toString()
+            }
+            else if (route.routeConfig.component) {
+                result = route.routeConfig.component.name
+            }
         }
-        else {
-            return kEmptyPathKey
-        }
+        return result
     }
     componentOfPath(path:string){
         let result = []
