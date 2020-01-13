@@ -9,6 +9,9 @@ export class BaightCommon {
     // ss：秒
     // S：毫秒
     static formatDate(date:Date, fmt:string):string{
+        if (date == null || date == undefined){
+            return ""
+        }
         var o = {
             "M+": date.getMonth() + 1, //月份 
             "d+": date.getDate(), //日 
@@ -34,6 +37,9 @@ export class BaightCommon {
     }
 
     static formatMoney(number:any, places=2, symbol='', thousand=',', decimal='.') {
+        if (number == null || number == undefined){
+            return ""
+        }
         if (number instanceof String){
             number = Number(number)
         }
