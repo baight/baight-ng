@@ -46,6 +46,12 @@ export class BaightRouteReuseStrategy implements RouteReuseStrategy {
             else if (route.routeConfig.loadChildren) {
                 result = route.routeConfig.loadChildren.toString()
             }
+            else if (route.routeConfig.children) {
+                result = "children"
+            }
+            else if (route.routeConfig.component) {
+                result = 'component'
+            }
         }
         return result
     }
@@ -89,9 +95,6 @@ export class BaightRouteReuseStrategy implements RouteReuseStrategy {
         return !!this.retrieve(route)
     }
     retrieve(route: ActivatedRouteSnapshot): DetachedRouteHandle {
-        if (route.routeConfig.children) {
-            return null
-        }
         // 从缓存中获取快照，若无则返回null
         let cacheKey = this.cacheKeyForRoute(route)
         let subCacheKey = this.subCacheKeyForRoute(route)
